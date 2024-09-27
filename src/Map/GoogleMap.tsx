@@ -7,36 +7,16 @@ import {
   useMapsLibrary,
 } from "@vis.gl/react-google-maps";
 import React, { useMemo, useEffect, useState } from "react";
+import axios from "axios";
 
 const apiKey: string | undefined = import.meta.env.VITE_API_KEY as string;
 
 type HeatmapProps = {
   data: google.maps.LatLng[] | google.maps.visualization.WeightedLocation[];
+  radius: number;
 };
 
-const coordinates = [
-  { lat: -33.860664, lng: 151.208138 },
-  { lat: -33.865835, lng: 151.209296 },
-  { lat: -33.867886, lng: 151.206788 },
-  { lat: -33.86064, lng: 151.208138 },
-  { lat: -33.86064, lng: 151.208138 },
-  { lat: -33.86064, lng: 151.208138 },
-  { lat: -33.86064, lng: 151.208138 },
-  { lat: -33.865835, lng: 151.209296 },
-  { lat: -33.867886, lng: 151.206788 },
-
-  { lat: -33.860664, lng: 151.208138 },
-  { lat: -33.865835, lng: 151.209296 },
-  { lat: -33.867886, lng: 151.206788 },
-  { lat: -33.86064, lng: 151.208138 },
-  { lat: -33.86064, lng: 151.208138 },
-  { lat: -33.86064, lng: 151.208138 },
-  { lat: -33.86064, lng: 151.208138 },
-  { lat: -33.865835, lng: 151.209296 },
-  { lat: -33.867886, lng: 151.206788 },
-];
-
-const Heatmap: React.FC<HeatmapProps> = ({ data }) => {
+const Heatmap: React.FC<HeatmapProps> = ({ data, radius }) => {
   const map = useMap();
   const visualizationLib = useMapsLibrary("visualization");
 
@@ -45,10 +25,10 @@ const Heatmap: React.FC<HeatmapProps> = ({ data }) => {
 
     return new visualizationLib.HeatmapLayer({
       data,
-      radius: 20,
-      opacity: 0.6,
+      radius: radius,
+      opacity: 0.3,
     });
-  }, [visualizationLib, data]);
+  }, [visualizationLib, data, radius]);
 
   useEffect(() => {
     if (!heatmap || !map) return;
@@ -58,7 +38,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ data }) => {
     return () => {
       heatmap.setMap(null);
     };
-  }, [heatmap, map]);
+  }, [heatmap, map, radius]);
 
   return null;
 };
@@ -67,30 +47,71 @@ const GoogleMap2 = () => {
   const [getHeatmapData, setHeatmapData] = useState<google.maps.LatLng[]>([]);
   const handleLoad = () => {
     if (window.google) {
-      const heatmapData = coordinates.map(
-        (coord) => new google.maps.LatLng(coord.lat, coord.lng),
-      );
-      setHeatmapData(heatmapData);
+      axios
+        .get(
+          `http://localhost:3000/activityPoints
+`,
+        )
+        .then((res) => {
+          const jsonCoords = res.data;
+          const heatmapData = jsonCoords.map(
+            (coord: any) =>
+              new google.maps.LatLng(coord.latitude, coord.longitude),
+          );
+          setHeatmapData(heatmapData);
+
+          console.log(jsonCoords);
+        });
     }
   };
 
+  const [rad, setRad] = useState(0);
   return (
     <APIProvider apiKey={apiKey} onLoad={() => handleLoad()}>
       <Map
         mapId={"7a9e2ebecd32a903"}
-        defaultZoom={13}
-        defaultCenter={{ lat: -33.860664, lng: 151.208138 }}
+        defaultZoom={5.135233869186244}
+        defaultCenter={{ lat: 52.05520693312365, lng: -89.07466897397208 }}
         disableDefaultUI={true}
-        onCameraChanged={(ev: MapCameraChangedEvent) =>
+        onCameraChanged={(ev: MapCameraChangedEvent) => {
           console.log(
             "camera changed:",
             ev.detail.center,
-            "zoom:",
+            "zoom level:",
             ev.detail.zoom,
-          )
-        }
+          );
+          if (ev.detail.zoom > 10.5) {
+            setRad(870);
+          } else if (ev.detail.zoom > 10) {
+            setRad(570);
+          } else if (ev.detail.zoom > 9.5) {
+            setRad(540);
+          } else if (ev.detail.zoom > 9) {
+            setRad(330);
+          } else if (ev.detail.zoom > 8.5) {
+            setRad(325);
+          } else if (ev.detail.zoom > 7.9) {
+            setRad(195);
+          } else if (ev.detail.zoom > 7.4) {
+            setRad(170);
+          } else if (ev.detail.zoom > 7) {
+            setRad(135);
+          } else if (ev.detail.zoom > 6.5) {
+            setRad(115);
+          } else if (ev.detail.zoom > 6) {
+            setRad(85);
+          } else if (ev.detail.zoom > 5.5) {
+            setRad(55);
+          } else if (ev.detail.zoom > 5) {
+            setRad(25);
+          } else if (ev.detail.zoom > 3) {
+            setRad(25);
+          }
+        }}
       >
-        {getHeatmapData.length > 0 && <Heatmap data={getHeatmapData} />}
+        {getHeatmapData.length > 0 && (
+          <Heatmap data={getHeatmapData} radius={rad} />
+        )}
       </Map>
     </APIProvider>
   );
