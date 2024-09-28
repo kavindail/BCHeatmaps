@@ -3,115 +3,48 @@ import {
   APIProvider,
   Map,
   MapCameraChangedEvent,
-  useMap,
-  useMapsLibrary,
 } from "@vis.gl/react-google-maps";
-import React, { useMemo, useEffect, useState } from "react";
-import axios from "axios";
-
+import { useState } from "react";
+import GoogleHeatmap from "../Heatmap/Heatmap.tsx";
 const apiKey: string | undefined = import.meta.env.VITE_API_KEY as string;
 
-type HeatmapProps = {
-  data: google.maps.LatLng[] | google.maps.visualization.WeightedLocation[];
-  radius: number;
-};
-
-const Heatmap: React.FC<HeatmapProps> = ({ data, radius }) => {
-  const map = useMap();
-  const visualizationLib = useMapsLibrary("visualization");
-
-  const heatmap = useMemo(() => {
-    if (!visualizationLib) return null;
-
-    return new visualizationLib.HeatmapLayer({
-      data,
-      radius: radius,
-      opacity: 0.3,
-    });
-  }, [visualizationLib, data, radius]);
-
-  useEffect(() => {
-    if (!heatmap || !map) return;
-
-    heatmap.setMap(map);
-
-    return () => {
-      heatmap.setMap(null);
-    };
-  }, [heatmap, map, radius]);
-
-  return null;
-};
-
 const GoogleMap2 = () => {
-  const [getHeatmapData, setHeatmapData] = useState<google.maps.LatLng[]>([]);
-  const handleLoad = () => {
-    if (window.google) {
-      axios
-        .get(
-          `http://localhost:3000/activityPoints
-`,
-        )
-        .then((res) => {
-          const jsonCoords = res.data;
-          const heatmapData = jsonCoords.map(
-            (coord: any) =>
-              new google.maps.LatLng(coord.latitude, coord.longitude),
-          );
-          setHeatmapData(heatmapData);
+  const [ready, setReady] = useState(false);
+  const [getRad, setRad] = useState(0);
 
-          console.log(jsonCoords);
-        });
-    }
-  };
-
-  const [rad, setRad] = useState(0);
   return (
-    <APIProvider apiKey={apiKey} onLoad={() => handleLoad()}>
+    <APIProvider apiKey={apiKey} onLoad={() => setReady(true)}>
       <Map
         mapId={"7a9e2ebecd32a903"}
         defaultZoom={5.135233869186244}
         defaultCenter={{ lat: 52.05520693312365, lng: -89.07466897397208 }}
         disableDefaultUI={true}
         onCameraChanged={(ev: MapCameraChangedEvent) => {
-          console.log(
-            "camera changed:",
-            ev.detail.center,
-            "zoom level:",
-            ev.detail.zoom,
+          const zoomRanges = [
+            { zoom: 10.5, rad: 870 },
+            { zoom: 10, rad: 570 },
+            { zoom: 9.5, rad: 540 },
+            { zoom: 9, rad: 330 },
+            { zoom: 8.5, rad: 325 },
+            { zoom: 7.9, rad: 195 },
+            { zoom: 7.4, rad: 170 },
+            { zoom: 7, rad: 135 },
+            { zoom: 6.5, rad: 115 },
+            { zoom: 6, rad: 85 },
+            { zoom: 5.5, rad: 55 },
+            { zoom: 5, rad: 25 },
+            { zoom: 3, rad: 25 },
+          ];
+
+          const matchingRange = zoomRanges.find(
+            (range) => ev.detail.zoom > range.zoom,
           );
-          if (ev.detail.zoom > 10.5) {
-            setRad(870);
-          } else if (ev.detail.zoom > 10) {
-            setRad(570);
-          } else if (ev.detail.zoom > 9.5) {
-            setRad(540);
-          } else if (ev.detail.zoom > 9) {
-            setRad(330);
-          } else if (ev.detail.zoom > 8.5) {
-            setRad(325);
-          } else if (ev.detail.zoom > 7.9) {
-            setRad(195);
-          } else if (ev.detail.zoom > 7.4) {
-            setRad(170);
-          } else if (ev.detail.zoom > 7) {
-            setRad(135);
-          } else if (ev.detail.zoom > 6.5) {
-            setRad(115);
-          } else if (ev.detail.zoom > 6) {
-            setRad(85);
-          } else if (ev.detail.zoom > 5.5) {
-            setRad(55);
-          } else if (ev.detail.zoom > 5) {
-            setRad(25);
-          } else if (ev.detail.zoom > 3) {
-            setRad(25);
+          if (matchingRange) {
+            setRad(matchingRange.rad);
           }
         }}
       >
-        {getHeatmapData.length > 0 && (
-          <Heatmap data={getHeatmapData} radius={rad} />
-        )}
+        <GoogleHeatmap loaded={ready} radius={getRad} />
       </Map>
     </APIProvider>
   );
