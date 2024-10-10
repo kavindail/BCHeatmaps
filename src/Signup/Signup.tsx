@@ -48,7 +48,6 @@ const Signup = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </div>
-
           <button type="submit" className="signup-button">
             Sign Up
           </button>

@@ -281,10 +281,10 @@ const Navbar = () => {
             </StyledLink>
           </Item>
           <Item>
-            <StyledLink onClick={handleNavigate("/")} href="/">
+            <StyledLink onClick={handleNavigate("/login")} href="/login">
               Login
             </StyledLink>
-            <StyledLink onClick={handleNavigate("/")} href="/">
+            <StyledLink onClick={handleNavigate("/signup")} href="/signup">
               Signup
             </StyledLink>
           </Item>
@@ -303,13 +303,13 @@ const Navbar = () => {
             </StyledLink>
           </Item>
           <Item>
-            <StyledLink onClick={handleNavigate("/")} href="/">
+            <StyledLink onClick={handleNavigate("/login")} href="/login">
               Login
             </StyledLink>
           </Item>
 
           <Item>
-            <StyledLink onClick={handleNavigate("/")} href="/">
+            <StyledLink onClick={handleNavigate("/signup")} href="/signup">
               Signup
             </StyledLink>
           </Item>
