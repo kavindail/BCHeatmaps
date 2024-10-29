@@ -15,7 +15,7 @@ const Login = () => {
     try {
       //TODO: Use the environment variable here for the url
       const response = await axios.post(
-        "http://localhost:3000/auth/signup",
+        "http://localhost:3000/auth/login",
         {
           email: formData.email,
           password: formData.password,
@@ -24,6 +24,7 @@ const Login = () => {
           headers: {
             "Content-Type": "application/json",
           },
+          withCredentials: true,
         },
       );
       console.log(response);
