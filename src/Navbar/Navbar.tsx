@@ -3,6 +3,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
+//TODO: Rewrite Nav so that some options are dependant upon the local authenticated variable
+//Only display login/signup if they are unauthenticated
+//Only display favorites/other authenticated features if they have the authenticated local variable
 interface NavProps {
   hidden: boolean;
 }

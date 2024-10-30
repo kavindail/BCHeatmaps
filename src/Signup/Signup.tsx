@@ -1,17 +1,43 @@
 import "./Signup.css";
 import { useState } from "react";
+import axios from "axios";
 
 const Signup = () => {
+  //TODO: Implement react toastify to indicate whether success or failure and the status code
+
   const [email, setEmail] = useState("");
   const [name, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  async function handleSignup(e: any) {
+    e.preventDefault();
+    try {
+      //TODO: Use the environment variable here for the url
+      const response = await axios.post(
+        "http://localhost:3000/auth/signup",
+        {
+          email: email,
+          password: password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        },
+      );
+      console.log(response);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
   return (
     <div className="signup">
       <div className="signup-container">
         <h2 id="SignupHeader">Signup</h2>
-        <form>
+        <form onSubmit={handleSignup}>
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
@@ -19,15 +45,6 @@ const Signup = () => {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              value={name}
-              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div className="form-group">
