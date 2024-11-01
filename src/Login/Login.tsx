@@ -2,7 +2,7 @@ import "./Login.css";
 import { useState } from "react";
 import "./Login.css";
 import axios from "axios";
-//TODO: Import API URL here and use it in the api request
+const apiUrl: string | undefined = import.meta.env.VITE_API_URL as string;
 
 const Login = () => {
   //TODO: Implement react toastify to indicate whether success or failure and the status code
@@ -14,9 +14,9 @@ const Login = () => {
     e.preventDefault();
     console.log(formData);
     try {
-      //TODO: Use the environment variable here for the url
+      console.log(apiUrl);
       const response = await axios.post(
-        "http://localhost:3000/auth/login",
+        apiUrl + "/auth/login",
         {
           email: formData.email,
           password: formData.password,

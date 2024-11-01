@@ -1,21 +1,20 @@
 import "./Signup.css";
 import { useState } from "react";
 import axios from "axios";
+const apiUrl: string | undefined = import.meta.env.VITE_API_URL as string;
 
 const Signup = () => {
   //TODO: Implement react toastify to indicate whether success or failure and the status code
 
   const [email, setEmail] = useState("");
-  const [name, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   async function handleSignup(e: any) {
     e.preventDefault();
     try {
-      //TODO: Use the environment variable here for the url
       const response = await axios.post(
-        "http://localhost:3000/auth/signup",
+        apiUrl + "/auth/signup",
         {
           email: email,
           password: password,
