@@ -5,6 +5,7 @@ import Navbar from "./Navbar/Navbar.js";
 import GoogleMap from "./Map/GoogleMap.js";
 import Login from "./Login/Login.js";
 import Signup from "./Signup/Signup.js";
+import ProtectedRoute from "./ProtectedRoutes/ProtectedRouteWrapper.js";
 
 import "./index.css";
 
@@ -17,7 +18,9 @@ createRoot(document.getElementById("root")!).render(
           path="/"
           element={
             <>
-              <GoogleMap />
+              <ProtectedRoute>
+                <GoogleMap />
+              </ProtectedRoute>
             </>
           }
         />

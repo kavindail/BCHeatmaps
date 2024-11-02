@@ -8,7 +8,7 @@ import { useState } from "react";
 import GoogleHeatmap from "../Heatmap/Heatmap.tsx";
 const apiKey: string | undefined = import.meta.env.VITE_API_KEY as string;
 
-const GoogleMap2 = () => {
+const GoogleMap2 = ({ isAuthenticated }) => {
   const [ready, setReady] = useState(false);
   const [getRad, setRad] = useState(0);
 
