@@ -5,28 +5,44 @@ import Navbar from "./Navbar/Navbar.js";
 import GoogleMap from "./Map/GoogleMap.js";
 import Login from "./Login/Login.js";
 import Signup from "./Signup/Signup.js";
-import ProtectedRoute from "./ProtectedRoutes/ProtectedRouteWrapper.js";
+import AuthProvider from "./AuthProvider/AuthProviderWrapper.js";
 
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
+  //TODO: Create a react toastify component which can be called from other components and display overtop the total ui
   <StrictMode>
     <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <ProtectedRoute>
+      <AuthProvider>
+        <Navbar />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
                 <GoogleMap />
-              </ProtectedRoute>
-            </>
-          }
-        />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-      </Routes>
+              </>
+            }
+          />
+
+          <Route
+            path="/login"
+            element={
+              <>
+                <Login />
+              </>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <>
+                <Signup />
+              </>
+            }
+          />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   </StrictMode>,
 );

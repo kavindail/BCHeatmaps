@@ -4,7 +4,7 @@ import "./Login.css";
 import axios from "axios";
 const apiUrl: string | undefined = import.meta.env.VITE_API_URL as string;
 
-const Login = () => {
+const Login: React.FC = () => {
   //TODO: Implement react toastify to indicate whether success or failure and the status code
   const [formData, setFormData] = useState({
     email: "",

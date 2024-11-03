@@ -2,10 +2,10 @@ import "./Navbar.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useAuthProvider } from "../AuthProvider/AuthProviderWrapper";
 
-//TODO: Rewrite Nav so that some options are dependant upon the local authenticated variable
-//Only display login/signup if they are unauthenticated
-//Only display favorites/other authenticated features if they have the authenticated local variable
+//TODO: Only display login/signup if they are unauthenticated
+//Only display favorites/other authenticated features if they are authenticated
 interface NavProps {
   hidden: boolean;
 }
@@ -229,6 +229,8 @@ const OverlayMenu = styled.ul<OverlayProps>`
 `;
 
 const Navbar = () => {
+  const { isAuthenticated } = useAuthProvider();
+  console.log("nav: ", isAuthenticated);
   const navigate = useNavigate();
 
   const handleNavigate = (path: string) => {
@@ -278,19 +280,23 @@ const Navbar = () => {
           <p>BC HEATMAPS</p>
         </Logo>
         <Menu>
-          <Item>
-            <StyledLink onClick={handleNavigate("/")} href="/">
-              Favorites
-            </StyledLink>
-          </Item>
-          <Item>
-            <StyledLink onClick={handleNavigate("/login")} href="/login">
-              Login
-            </StyledLink>
-            <StyledLink onClick={handleNavigate("/signup")} href="/signup">
-              Signup
-            </StyledLink>
-          </Item>
+          {isAuthenticated && (
+            <Item>
+              <StyledLink onClick={handleNavigate("/")} href="/">
+                Favorites
+              </StyledLink>
+            </Item>
+          )}
+          {!isAuthenticated && (
+            <Item>
+              <StyledLink onClick={handleNavigate("/login")} href="/login">
+                Login
+              </StyledLink>
+              <StyledLink onClick={handleNavigate("/signup")} href="/signup">
+                Signup
+              </StyledLink>
+            </Item>
+          )}
         </Menu>
         <NavIcon onClick={() => toggleNav(!toggle)}>
           <Line open={toggle} />
@@ -300,22 +306,29 @@ const Navbar = () => {
       </Nav>
       <Overlay open={toggle}>
         <OverlayMenu open={toggle}>
-          <Item>
-            <StyledLink onClick={handleNavigate("/")} href="/">
-              Favorites
-            </StyledLink>
-          </Item>
-          <Item>
-            <StyledLink onClick={handleNavigate("/login")} href="/login">
-              Login
-            </StyledLink>
-          </Item>
+          {isAuthenticated && (
+            <Item>
+              <StyledLink onClick={handleNavigate("/")} href="/">
+                Favorites
+              </StyledLink>
+            </Item>
+          )}
 
-          <Item>
-            <StyledLink onClick={handleNavigate("/signup")} href="/signup">
-              Signup
-            </StyledLink>
-          </Item>
+          {!isAuthenticated && (
+            <Item>
+              <StyledLink onClick={handleNavigate("/login")} href="/login">
+                Login
+              </StyledLink>
+            </Item>
+          )}
+
+          {!isAuthenticated && (
+            <Item>
+              <StyledLink onClick={handleNavigate("/signup")} href="/signup">
+                Signup
+              </StyledLink>
+            </Item>
+          )}
         </OverlayMenu>
       </Overlay>
     </>

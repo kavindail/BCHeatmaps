@@ -3,9 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 const apiUrl: string | undefined = import.meta.env.VITE_API_URL as string;
 
-const Signup = () => {
-  //TODO: Implement react toastify to indicate whether success or failure and the status code
-
+const Signup: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

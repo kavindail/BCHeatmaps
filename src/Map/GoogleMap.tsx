@@ -7,10 +7,13 @@ import {
 import { useState } from "react";
 import GoogleHeatmap from "../Heatmap/Heatmap.tsx";
 const apiKey: string | undefined = import.meta.env.VITE_API_KEY as string;
+import { useAuthProvider } from "../AuthProvider/AuthProviderWrapper.tsx";
 
-const GoogleMap2 = ({ isAuthenticated }) => {
+const GoogleMap2: React.FC = () => {
   const [ready, setReady] = useState(false);
   const [getRad, setRad] = useState(0);
+  const { isAuthenticated } = useAuthProvider();
+  console.log("IsAuthenticatedInMap: ", isAuthenticated);
 
   return (
     <APIProvider apiKey={apiKey} onLoad={() => setReady(true)}>
