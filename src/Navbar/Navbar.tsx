@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useAuthProvider } from "../AuthProvider/AuthProviderWrapper";
 
-//TODO: Only display login/signup if they are unauthenticated
-//Only display favorites/other authenticated features if they are authenticated
 interface NavProps {
   hidden: boolean;
 }

@@ -6,6 +6,7 @@ import GoogleMap from "./Map/GoogleMap.js";
 import Login from "./Login/Login.js";
 import Signup from "./Signup/Signup.js";
 import AuthProvider from "./AuthProvider/AuthProviderWrapper.js";
+import ZoomLevels from "./Map/ZoomLevel/ZoomLevel.js";
 
 import "./index.css";
 

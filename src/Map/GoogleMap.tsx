@@ -8,18 +8,20 @@ import { useState } from "react";
 import GoogleHeatmap from "../Heatmap/Heatmap.tsx";
 const apiKey: string | undefined = import.meta.env.VITE_API_KEY as string;
 import { useAuthProvider } from "../AuthProvider/AuthProviderWrapper.tsx";
+import ZoomLevels from "./ZoomLevel/ZoomLevel.tsx";
 
 const GoogleMap2: React.FC = () => {
   const [ready, setReady] = useState(false);
   const [getRad, setRad] = useState(0);
   const { isAuthenticated } = useAuthProvider();
+  const [zoomLevel, setZoomLevel] = useState(5.135233869186244);
   console.log("IsAuthenticatedInMap: ", isAuthenticated);
 
   return (
     <APIProvider apiKey={apiKey} onLoad={() => setReady(true)}>
       <Map
         mapId={"7a9e2ebecd32a903"}
-        defaultZoom={5.135233869186244}
+        zoom={zoomLevel}
         defaultCenter={{ lat: 52.05520693312365, lng: -89.07466897397208 }}
         disableDefaultUI={true}
         onCameraChanged={(ev: MapCameraChangedEvent) => {
@@ -48,6 +50,8 @@ const GoogleMap2: React.FC = () => {
         }}
       >
         <GoogleHeatmap loaded={ready} radius={getRad} />
+
+        <ZoomLevels setZoomLevel={setZoomLevel} />
       </Map>
     </APIProvider>
   );

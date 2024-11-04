@@ -1,6 +1,7 @@
 import { useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
 import React, { useMemo, useEffect, useState } from "react";
 import axios from "axios";
+const apiUrl: string | undefined = import.meta.env.VITE_API_URL as string;
 
 type HeatmapProps = {
   data: google.maps.LatLng[] | google.maps.visualization.WeightedLocation[];
@@ -42,10 +43,7 @@ function GoogleHeatmap({ loaded, radius }) {
   useEffect(() => {
     if (loaded) {
       axios
-        .get(
-          `http://localhost:3000/activityPoints
-`,
-        )
+        .get(apiUrl + "/activityPoints")
         .then((res) => {
           const jsonCoords = res.data;
           const heatmapData = jsonCoords.map(
