@@ -3,25 +3,65 @@ import "./ZoomLevel.css";
 const ZoomLevels: React.FC<{ setZoomLevel: (zoom: number) => void }> = ({
   setZoomLevel,
 }) => {
-  //Zoom level is going to be a little menu of zoom levels,
-  //when a zoom level is updated it should change the zoom level of the actual map
+  function handleZoomChange(e: any, zoomLevel: number) {
+    e.preventDefault();
+    setZoomLevel(zoomLevel);
+  }
   return (
     <div id="zoomLevels">
       <div id="selections">
         <div className="selectionBox">
-          <button value={0.5}> 0.5x </button>
+          <button
+            onClick={(e) => handleZoomChange(e, Number(e.currentTarget.value))}
+            value={5}
+          >
+            0.5x
+          </button>
         </div>
         <div className="selectionBox">
           <button value={1}> 1x </button>
         </div>
         <div className="selectionBox">
-          <button value={2}> 2x </button>
+          <button
+            onClick={(e) => handleZoomChange(e, Number(e.currentTarget.value))}
+            value={6}
+          >
+            2x
+          </button>
         </div>
         <div className="selectionBox">
-          <button value={4}> 4x </button>
+          <button
+            onClick={(e) => handleZoomChange(e, Number(e.currentTarget.value))}
+            value={7}
+          >
+            4x
+          </button>
         </div>
         <div className="selectionBox">
-          <button value={8}> 8x </button>
+          <button
+            onClick={(e) => handleZoomChange(e, Number(e.currentTarget.value))}
+            value={10}
+          >
+            8x
+          </button>
+        </div>
+
+        <div className="selectionBox">
+          <button
+            onClick={(e) => handleZoomChange(e, Number(e.currentTarget.value))}
+            value={12}
+          >
+            16x
+          </button>
+        </div>
+
+        <div className="selectionBox">
+          <button
+            onClick={(e) => handleZoomChange(e, Number(e.currentTarget.value))}
+            value={18}
+          >
+            32x
+          </button>
         </div>
       </div>
     </div>

@@ -26,7 +26,10 @@ const GoogleMap2: React.FC = () => {
         disableDefaultUI={true}
         onCameraChanged={(ev: MapCameraChangedEvent) => {
           const zoomRanges = [
-            { zoom: 10.5, rad: 870 },
+            { zoom: 13.5, rad: 300 },
+            { zoom: 12.5, rad: 300 },
+            { zoom: 11.5, rad: 1000 },
+            { zoom: 10.5, rad: 880 },
             { zoom: 10, rad: 570 },
             { zoom: 9.5, rad: 540 },
             { zoom: 9, rad: 330 },
@@ -44,8 +47,12 @@ const GoogleMap2: React.FC = () => {
           const matchingRange = zoomRanges.find(
             (range) => ev.detail.zoom > range.zoom,
           );
+
+          console.log(zoomLevel);
           if (matchingRange) {
+            console.log("Current rad, ", matchingRange.rad);
             setRad(matchingRange.rad);
+            setZoomLevel(ev.detail.zoom);
           }
         }}
       >
@@ -61,6 +68,7 @@ function GoogleMap() {
   return (
     <div className="googleMaps">
       <GoogleMap2 />
+      <div className="crosshair"></div>
     </div>
   );
 }
