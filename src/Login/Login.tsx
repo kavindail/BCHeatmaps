@@ -3,18 +3,23 @@ import { useState } from "react";
 import "./Login.css";
 import axios from "axios";
 const apiUrl: string | undefined = import.meta.env.VITE_API_URL as string;
+import { useNavigate } from "react-router-dom";
+import { useAuthProvider } from "../AuthProvider/AuthProviderWrapper.tsx";
 
 const Login: React.FC = () => {
+  const { setIsAuthenticated } = useAuthProvider();
+  const navigate = useNavigate();
+
   //TODO: Implement react toastify to indicate whether success or failure and the status code
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  async function handleSignup(e: any) {
+
+  async function handleLogin(e: any) {
     e.preventDefault();
     console.log(formData);
     try {
-      console.log(apiUrl);
       const response = await axios.post(
         apiUrl + "/auth/login",
         {
@@ -28,9 +33,12 @@ const Login: React.FC = () => {
           withCredentials: true,
         },
       );
-      console.log(response);
+      console.log("response: ", response);
+      setIsAuthenticated(true);
+      navigate("/");
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error: ", error);
+      setIsAuthenticated(false);
     }
   }
 
@@ -38,7 +46,7 @@ const Login: React.FC = () => {
     <div className="login">
       <div className="login-container">
         <h2>Login</h2>
-        <form onSubmit={handleSignup}>
+        <form onSubmit={handleLogin}>
           <div className="form-group">
             <label htmlFor="username">Username (Email)</label>
             <input

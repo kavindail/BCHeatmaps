@@ -277,7 +277,7 @@ const Navbar = () => {
       <div className="NavPlaceholder"></div>
       <Nav hidden={hidden}>
         <Logo onClick={handleNavigate("/")}>
-          <p>BC HEATMAPS</p>
+          <p>ON HEATMAPS</p>
         </Logo>
         <Menu>
           {isAuthenticated && (

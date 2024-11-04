@@ -2,15 +2,23 @@ import "./Signup.css";
 import { useState } from "react";
 import axios from "axios";
 const apiUrl: string | undefined = import.meta.env.VITE_API_URL as string;
+import { useNavigate } from "react-router-dom";
+import { useAuthProvider } from "../AuthProvider/AuthProviderWrapper.tsx";
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const { setIsAuthenticated } = useAuthProvider();
+  let navigate = useNavigate();
 
   async function handleSignup(e: any) {
     e.preventDefault();
+
+    console.log("Signing up user");
+
     try {
+      console.log("Signing up user");
       const response = await axios.post(
         apiUrl + "/auth/signup",
         {
@@ -24,9 +32,13 @@ const Signup: React.FC = () => {
           withCredentials: true,
         },
       );
-      console.log(response);
+      console.log("Response in signup: ", response);
+      setIsAuthenticated(true);
+      navigate("/");
     } catch (error) {
-      console.error("Error:", error);
+      //TODO: Add a react toastify thing here
+      console.error("Error In Signup:", error);
+      setIsAuthenticated(false);
     }
   }
 

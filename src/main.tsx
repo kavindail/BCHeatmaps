@@ -10,7 +10,6 @@ import AuthProvider from "./AuthProvider/AuthProviderWrapper.js";
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
-  //TODO: Create a react toastify component which can be called from other components and display overtop the total ui
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
