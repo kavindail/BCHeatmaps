@@ -19,9 +19,6 @@ const ZoomLevels: React.FC<{ setZoomLevel: (zoom: number) => void }> = ({
           </button>
         </div>
         <div className="selectionBox">
-          <button value={1}> 1x </button>
-        </div>
-        <div className="selectionBox">
           <button
             onClick={(e) => handleZoomChange(e, Number(e.currentTarget.value))}
             value={6}
@@ -61,6 +58,15 @@ const ZoomLevels: React.FC<{ setZoomLevel: (zoom: number) => void }> = ({
             value={18}
           >
             32x
+          </button>
+        </div>
+
+        <div className="selectionBox">
+          <button
+            onClick={(e) => handleZoomChange(e, Number(e.currentTarget.value))}
+            value={27}
+          >
+            64x
           </button>
         </div>
       </div>

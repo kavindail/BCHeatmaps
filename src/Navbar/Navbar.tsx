@@ -25,7 +25,7 @@ const Nav = styled.nav<NavProps>`
   padding-top: 1.2em;
   min-height: 4vh;
   z-index: 10000000;
-  background: black;
+  background: #000000;
   padding-bottom: 1em;
   display: flex;
   justify-content: space-between;
@@ -46,8 +46,8 @@ const Logo = styled.h1`
   position: relative;
   color: white;
   z-index: 20;
-  font-size: 1.25rem;
-  font-weight: 300;
+  font-size: 1.6rem;
+  font-weight: 500;
   white-space: nowrap;
   cursor: pointer;
   text-overflow: ellipsis;
@@ -173,7 +173,7 @@ const Overlay = styled.div<OverlayProps>`
   left: 0;
   height: 100vh;
   width: 100vw;
-  background: #000;
+  background: #000000;
   transition:
     visibility 0.2s,
     opacity 0.3s ease-in-out;
@@ -270,12 +270,35 @@ const Navbar = () => {
     toggleNav(false);
   };
 
+  const colors = [
+    "rgba(255, 0, 0, 0.8)",
+    "rgba(255, 69, 0, 0.8)",
+    "rgba(255, 127, 80, 0.8)",
+    "rgba(255, 165, 0, 0.8)",
+    "rgba(255, 215, 0, 0.8)",
+    "rgba(173, 255, 47, 0.8)",
+    "rgba(124, 252, 0, 0.8)",
+    "rgba(50, 205, 50, 0.8)",
+    "rgba(128, 128, 128, 0.8)",
+    "rgba(169, 169, 169, 0.8)",
+    "rgba(211, 211, 211, 0.8)",
+  ];
+
   return (
     <>
       <div className="NavPlaceholder"></div>
       <Nav hidden={hidden}>
         <Logo onClick={handleNavigate("/")}>
-          <p>ON HEATMAPS</p>
+          <p>
+            {Array.from("ON_HEATMAPS").map((letter, index) => (
+              <span
+                key={index}
+                style={{ color: colors[index % colors.length] }}
+              >
+                {letter}
+              </span>
+            ))}
+          </p>
         </Logo>
         <Menu>
           {isAuthenticated && (

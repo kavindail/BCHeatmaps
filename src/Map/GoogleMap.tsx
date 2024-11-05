@@ -26,8 +26,8 @@ const GoogleMap2: React.FC = () => {
         disableDefaultUI={true}
         onCameraChanged={(ev: MapCameraChangedEvent) => {
           const zoomRanges = [
-            { zoom: 13.5, rad: 500 },
-            { zoom: 12.5, rad: 500 },
+            { zoom: 13.5, rad: 600 },
+            { zoom: 12.5, rad: 600 },
             { zoom: 11.5, rad: 1000 },
             { zoom: 10.5, rad: 880 },
             { zoom: 10, rad: 570 },
