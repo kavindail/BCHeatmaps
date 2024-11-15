@@ -1,0 +1,8 @@
+.starLocation {
+  position: absolute;
+  top: 90px;
+  left: 68px;
+  z-index: 2;
+  color: white;
+  font-size: 2.5em;
+}

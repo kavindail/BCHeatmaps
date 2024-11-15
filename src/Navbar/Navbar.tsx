@@ -23,20 +23,17 @@ const Nav = styled.nav<NavProps>`
   overflow-y: hidden;
   padding: 5px;
   padding-top: 1.2em;
-  min-height: 4vh;
-  z-index: 10000000;
+  z-index: 1000; /* Adjusted to a reasonable value */
   background: #000000;
   padding-bottom: 1em;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: absolute;
+  position: relative; /* Changed from absolute */
   width: 100%;
-  top: 0;
   transition: top 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 
   @media (max-width: 768px) {
-    min-height: 2.5vh;
     top: ${({ hidden }) => (hidden ? "-100%" : "0")};
   }
 `;
@@ -286,7 +283,6 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="NavPlaceholder"></div>
       <Nav hidden={hidden}>
         <Logo onClick={handleNavigate("/")}>
           <p>
@@ -303,7 +299,10 @@ const Navbar = () => {
         <Menu>
           {isAuthenticated && (
             <Item>
-              <StyledLink onClick={handleNavigate("/")} href="/">
+              <StyledLink
+                onClick={handleNavigate("/favorites")}
+                href="/favorites"
+              >
                 Favorites
               </StyledLink>
             </Item>
@@ -329,7 +328,10 @@ const Navbar = () => {
         <OverlayMenu open={toggle}>
           {isAuthenticated && (
             <Item>
-              <StyledLink onClick={handleNavigate("/")} href="/">
+              <StyledLink
+                onClick={handleNavigate("/favorites")}
+                href="/favorites"
+              >
                 Favorites
               </StyledLink>
             </Item>

@@ -56,6 +56,9 @@
   font-size: 16px;
   margin-top: 10px;
 }
+.login-button p {
+  margin-left: 15px;
+}
 
 .form-group input:focus {
   outline: none;

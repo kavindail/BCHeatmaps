@@ -9,6 +9,7 @@ import GoogleHeatmap from "../Heatmap/Heatmap.tsx";
 const apiKey: string | undefined = import.meta.env.VITE_API_KEY as string;
 import { useAuthProvider } from "../AuthProvider/AuthProviderWrapper.tsx";
 import ZoomLevels from "./ZoomLevel/ZoomLevel.tsx";
+import StarLocation from "../Favorites/StarLocation.tsx";
 
 const GoogleMap2: React.FC = () => {
   const [ready, setReady] = useState(false);
@@ -69,6 +70,7 @@ function GoogleMap() {
     <div className="googleMaps">
       <GoogleMap2 />
       <div className="crosshair"></div>
+      <StarLocation />
     </div>
   );
 }

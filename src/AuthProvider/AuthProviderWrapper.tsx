@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-// import { Navigate, Route } from "react-router-dom";
 import axios from "axios";
 const apiUrl: string | undefined = import.meta.env.VITE_API_URL as string;
 

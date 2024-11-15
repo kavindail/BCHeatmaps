@@ -82,7 +82,7 @@ const Login: React.FC = () => {
             className="login-button"
             disabled={!formData.email || !formData.password}
           >
-            Login
+            <p>Login</p>
           </button>
         </form>
       </div>
