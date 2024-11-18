@@ -12,19 +12,29 @@ function triggerButonClickEffect() {
   //TODO: This should trigger some sort of animation in the star either fill it in or add some sort of animation
 }
 
-//TODO: Take these as props in the component
-//This component should just be a star that when pressed adds a favorite for the current location on
-const StarLocation = () => {
-  const [buttonClicked, setButtonClicked] = useState(false);
+interface StarLocationProps {
+  zoomLevel: number;
+  latitude: number;
+  longitude: number;
+}
 
-  function addFavorite() {
+const StarLocation: React.FC<StarLocationProps> = ({
+  zoomLevel,
+  latitude,
+  longitude,
+}) => {
+  const [buttonClicked, setButtonClicked] = useState(false);
+  console.log("Zoom Level in Star Location: ", zoomLevel);
+  console.log("Latitude in Star Location: ", latitude);
+  console.log("Longitude in Star Location: ", longitude);
+
+  async function addFavorite() {
     setButtonClicked(true);
 
     try {
-      //TODO: Change this to the api call to add favorites
-      const response = axios.post(
-        apiUrl + "/auth/verifyToken",
-        {},
+      const response = await axios.post(
+        apiUrl + "/favorite",
+        { latitude: latitude, longitude: longitude, zoomLevel: zoomLevel },
         {
           headers: {
             "Content-Type": "application/json",
@@ -32,6 +42,7 @@ const StarLocation = () => {
           withCredentials: true,
         },
       );
+      console.log("Added favorite, response: ", response);
     } catch (error) {
       console.error("Error:", error);
     }

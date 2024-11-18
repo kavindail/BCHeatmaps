@@ -11,11 +11,25 @@ import { useAuthProvider } from "../AuthProvider/AuthProviderWrapper.tsx";
 import ZoomLevels from "./ZoomLevel/ZoomLevel.tsx";
 import StarLocation from "../Favorites/StarLocation.tsx";
 
-const GoogleMap2: React.FC = () => {
+const GoogleMap2: React.FC<{
+  latitude: number;
+  longitude: number;
+  zoomLevel: number;
+  setLatitude: (lat: number) => void;
+  setLongitude: (lng: number) => void;
+  setZoomLevel: (zoom: number) => void;
+}> = ({
+  latitude,
+  longitude,
+  zoomLevel,
+  setLatitude,
+  setLongitude,
+  setZoomLevel,
+}) => {
   const [ready, setReady] = useState(false);
   const [getRad, setRad] = useState(0);
   const { isAuthenticated } = useAuthProvider();
-  const [zoomLevel, setZoomLevel] = useState(5.135233869186244);
+
   console.log("IsAuthenticatedInMap: ", isAuthenticated);
 
   return (
@@ -51,9 +65,10 @@ const GoogleMap2: React.FC = () => {
 
           console.log(zoomLevel);
           if (matchingRange) {
-            console.log("Current rad, ", matchingRange.rad);
             setRad(matchingRange.rad);
             setZoomLevel(ev.detail.zoom);
+            setLongitude(ev.detail.center.lng);
+            setLatitude(ev.detail.center.lat);
           }
         }}
       >
@@ -66,11 +81,25 @@ const GoogleMap2: React.FC = () => {
 };
 
 function GoogleMap() {
+  const [zoomLevel, setZoomLevel] = useState(5.135233869186244);
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
   return (
     <div className="googleMaps">
-      <GoogleMap2 />
+      <GoogleMap2
+        latitude={latitude}
+        longitude={longitude}
+        zoomLevel={zoomLevel}
+        setLatitude={setLatitude}
+        setLongitude={setLongitude}
+        setZoomLevel={setZoomLevel}
+      />
       <div className="crosshair"></div>
-      <StarLocation />
+      <StarLocation
+        latitude={latitude}
+        longitude={longitude}
+        zoomLevel={zoomLevel}
+      />
     </div>
   );
 }
