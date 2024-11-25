@@ -1,6 +1,6 @@
 import "./Favorites.css";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 const apiUrl: string | undefined = import.meta.env.VITE_API_URL as string;
 
 const Favorites = () => {
@@ -16,9 +16,9 @@ const Favorites = () => {
           withCredentials: true,
         });
         const responseData = response.data;
-        console.log("Favorite: ", responseData);
-        console.log(response);
-        setFavorites(responseData);
+        console.log("Response Data:", responseData);
+        const favoritesArray = responseData.favorites || responseData;
+        setFavorites(favoritesArray);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -28,7 +28,27 @@ const Favorites = () => {
 
   return (
     <div className="favorites">
-      <p>{JSON.stringify(favorites)}</p>
+      <div className="favorites-page">
+        {favorites && favorites.length > 0 ? (
+          <div className="favorites-container">
+            {favorites.map((favorite, index) => (
+              <div key={index} className="favorite-item">
+                <p className="favorite-title">Favorite {index + 1}</p>
+                <p className="favorite-detail">Latitude: {favorite.latitude}</p>
+                <p className="favorite-detail">
+                  Longitude: {favorite.longitude}
+                </p>
+                <p className="favorite-detail">
+                  Zoom Level: {favorite.zoomLevel}
+                </p>
+                <button className="favorite-button">View Favorite</button>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="no-favorites">No favorites found</p>
+        )}
+      </div>
     </div>
   );
 };

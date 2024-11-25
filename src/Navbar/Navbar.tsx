@@ -19,17 +19,18 @@ interface OverlayProps {
 const Nav = styled.nav<NavProps>`
   font-family: "Karla", sans-serif !important;
   font-weight: 300;
+  min-height: 5em;
   overflow-x: hidden;
   overflow-y: hidden;
   padding: 5px;
   padding-top: 1.2em;
-  z-index: 1000; /* Adjusted to a reasonable value */
+  z-index: 5;
   background: #000000;
   padding-bottom: 1em;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative; /* Changed from absolute */
+  position: relative;
   width: 100%;
   transition: top 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -109,6 +110,7 @@ const Line = styled.span<LineProps>`
   width: 54%;
   height: 0.13rem;
   background-color: #fff;
+  z-index: 10;
   transition:
     transform 0.4s ease,
     opacity 0.4s ease;
@@ -165,7 +167,7 @@ const NavIcon = styled.button`
 
 const Overlay = styled.div<OverlayProps>`
   position: absolute;
-  z-index: 1000;
+  z-index: 4;
   top: 0;
   left: 0;
   height: 100vh;
