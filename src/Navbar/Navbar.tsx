@@ -246,7 +246,7 @@ const Navbar = () => {
 
     useEffect(() => {
       const onScroll = () => {
-        let currentPosition = window.pageYOffset;
+        const currentPosition = window.pageYOffset;
         if (currentPosition > lastScrollTop && currentPosition > 50) {
           setHidden(true);
         } else if (currentPosition < lastScrollTop) {

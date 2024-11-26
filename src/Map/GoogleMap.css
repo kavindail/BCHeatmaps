@@ -1,5 +1,6 @@
 .googleMaps {
-  height: 95vh;
+  height: 91.2vh;
+  z-index: 1;
   width: auto;
 }
 

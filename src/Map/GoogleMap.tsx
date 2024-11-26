@@ -4,40 +4,41 @@ import {
   Map,
   MapCameraChangedEvent,
 } from "@vis.gl/react-google-maps";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GoogleHeatmap from "../Heatmap/Heatmap.tsx";
-const apiKey: string | undefined = import.meta.env.VITE_API_KEY as string;
 import { useAuthProvider } from "../AuthProvider/AuthProviderWrapper.tsx";
 import ZoomLevels from "./ZoomLevel/ZoomLevel.tsx";
 import StarLocation from "../Favorites/StarLocation.tsx";
+import { useLocation } from "react-router-dom";
+const apiKey: string | undefined = import.meta.env.VITE_API_KEY as string;
 
 const GoogleMap2: React.FC<{
-  latitude: number;
-  longitude: number;
   zoomLevel: number;
-  setLatitude: (lat: number) => void;
-  setLongitude: (lng: number) => void;
   setZoomLevel: (zoom: number) => void;
+  latitude: number;
+  setLatitude: (lat: number) => void;
+  longitude: number;
+  setLongitude: (lng: number) => void;
 }> = ({
-  latitude,
-  longitude,
   zoomLevel,
-  setLatitude,
-  setLongitude,
   setZoomLevel,
+  latitude,
+  setLatitude,
+  longitude,
+  setLongitude,
 }) => {
   const [ready, setReady] = useState(false);
   const [getRad, setRad] = useState(0);
   const { isAuthenticated } = useAuthProvider();
 
-  console.log("IsAuthenticatedInMap: ", isAuthenticated);
+  console.log("Is authenticated in map:", isAuthenticated);
 
   return (
     <APIProvider apiKey={apiKey} onLoad={() => setReady(true)}>
       <Map
         mapId={"7a9e2ebecd32a903"}
         zoom={zoomLevel}
-        defaultCenter={{ lat: 52.05520693312365, lng: -89.07466897397208 }}
+        center={{ lat: latitude, lng: longitude }}
         disableDefaultUI={true}
         onCameraChanged={(ev: MapCameraChangedEvent) => {
           const zoomRanges = [
@@ -59,11 +60,10 @@ const GoogleMap2: React.FC<{
             { zoom: 3, rad: 25 },
           ];
 
+          console.log("Current Zoom Level:", zoomLevel);
           const matchingRange = zoomRanges.find(
             (range) => ev.detail.zoom > range.zoom,
           );
-
-          console.log(zoomLevel);
           if (matchingRange) {
             setRad(matchingRange.rad);
             setZoomLevel(ev.detail.zoom);
@@ -73,26 +73,40 @@ const GoogleMap2: React.FC<{
         }}
       >
         <GoogleHeatmap loaded={ready} radius={getRad} />
-
         <ZoomLevels setZoomLevel={setZoomLevel} />
       </Map>
     </APIProvider>
   );
 };
 
-function GoogleMap() {
+const GoogleMap: React.FC = () => {
   const [zoomLevel, setZoomLevel] = useState(5.135233869186244);
-  const [latitude, setLatitude] = useState(0);
-  const [longitude, setLongitude] = useState(0);
+  const [latitude, setLatitude] = useState(52.05520693312365);
+  const [longitude, setLongitude] = useState(-89.07466897397208);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state) {
+      const { zoomLevel, latitude, longitude } = location.state as {
+        zoomLevel: number;
+        latitude: number;
+        longitude: number;
+      };
+      setZoomLevel(zoomLevel);
+      setLatitude(latitude);
+      setLongitude(longitude);
+    }
+  }, [location.state]);
+
   return (
     <div className="googleMaps">
       <GoogleMap2
-        latitude={latitude}
-        longitude={longitude}
         zoomLevel={zoomLevel}
-        setLatitude={setLatitude}
-        setLongitude={setLongitude}
         setZoomLevel={setZoomLevel}
+        latitude={latitude}
+        setLatitude={setLatitude}
+        longitude={longitude}
+        setLongitude={setLongitude}
       />
       <div className="crosshair"></div>
       <StarLocation
@@ -102,6 +116,6 @@ function GoogleMap() {
       />
     </div>
   );
-}
+};
 
 export default GoogleMap;
