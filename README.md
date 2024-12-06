@@ -1,6 +1,13 @@
-Ontario Activity Based Real Estate Heatmaps
-![BCHeatmaps](https://i.imgur.com/xsyS8PU.png)
+**Ontario Activity Based Real Estate Heatmaps**
 
+
+## Different App Views:
+## Heat level represents real estate activity in the area
+
+![BCHeatmaps](https://i.imgur.com/xsyS8PU.png)
+![BCHeatmaps](https://i.imgur.com/mhdq9zc.png)
+![BCHeatmaps](https://i.imgur.com/FGEhj7K.png)
+![BCHeatmaps](https://i.imgur.com/FGEhj7K.png)
 
 
 
