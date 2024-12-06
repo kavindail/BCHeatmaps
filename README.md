@@ -2,6 +2,7 @@
 
 
 **Different App View Examples**
+
 _Heat level represents real estate activity in the area_
 
 ![BCHeatmaps](https://i.imgur.com/xsyS8PU.png)
